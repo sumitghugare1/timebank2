@@ -29,7 +29,7 @@ function Signup() {
     setIsLoading(true);
 
     try {
-      await axios.post("http://localhost:5000/api/auth/signup", { name, email, password });
+      await axios.post("https://timebank2.vercel.app/api/auth/signup", { name, email, password });
 
       showToast("🎉 Account created successfully! Redirecting to login...", "success");
 

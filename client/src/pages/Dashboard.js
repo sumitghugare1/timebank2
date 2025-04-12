@@ -25,7 +25,7 @@ function Dashboard() {
   const fetchUserProfile = async (token) => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:5000/api/auth/profile", {
+      const response = await fetch("https://timebank2.vercel.app/api/auth/profile", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -46,7 +46,7 @@ function Dashboard() {
 
   const fetchSkills = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/skills");
+      const response = await fetch("https://timebank2.vercel.app/api/skills");
       const data = await response.json();
       setSkills(data);
     } catch (error) {

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/chat";
+const API_URL = "https://timebank2.vercel.app/api/chat";
 
 export const getMessages = async () => {
   const res = await axios.get(API_URL);

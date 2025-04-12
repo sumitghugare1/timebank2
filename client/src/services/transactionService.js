@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/transactions";
+const API_URL = "https://timebank2.vercel.app/api/transactions";
 
 // ✅ Earn Credits
 export const earnCredits = async (skillId) => {

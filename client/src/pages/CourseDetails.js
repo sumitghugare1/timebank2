@@ -17,7 +17,7 @@ const CourseDetails = () => {
     const fetchCourseDetails = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`http://localhost:5000/api/courses/${id}`, {
+        const response = await fetch(`https://timebank2.vercel.app/api/courses/${id}`, {
           method: "GET",
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -47,7 +47,7 @@ const CourseDetails = () => {
       const token = localStorage.getItem("token");
       
       // First, create a transaction record
-      const transactionResponse = await fetch(`http://localhost:5000/api/transactions/spend`, {
+      const transactionResponse = await fetch(`https://timebank2.vercel.app/api/transactions/spend`, {
         method: "POST",
         headers: { 
           Authorization: `Bearer ${token}`,
@@ -62,7 +62,7 @@ const CourseDetails = () => {
       }
 
       // After successful transaction, process the course purchase
-      const purchaseResponse = await fetch(`http://localhost:5000/api/courses/${id}/purchase`, {
+      const purchaseResponse = await fetch(`https://timebank2.vercel.app/api/courses/${id}/purchase`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       });

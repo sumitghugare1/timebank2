@@ -15,7 +15,7 @@ function AddSkill() {
         }
         try {
             await axios.post(
-                "http://localhost:5000/api/skills/add",
+                "https://timebank2.vercel.app/api/skills/add",
                 { name, description, hoursAvailable },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
