@@ -21,6 +21,15 @@ app.use((req, res, next) => {
   next();
 });
 
+// URL normalization middleware to handle encoded spaces in API paths
+app.use((req, res, next) => {
+  if (req.url.includes('%20api/')) {
+    req.url = req.url.replace('%20api/', 'api/');
+    console.log(`Normalized URL to: ${req.url}`);
+  }
+  next();
+});
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/skills", skillRoutes);

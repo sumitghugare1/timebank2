@@ -29,14 +29,14 @@ function Login() {
     setIsLoading(true);
 
     try {
-      const res = await axios.post("https://timebank2.vercel.app/api/auth/login", { email, password });
+      const res = await axios.post("http://localhost:5000/ api/auth/login", { email, password });
 
       localStorage.setItem("token", res.data.token);
       
       // Check if this is an admin login attempt
       if (isAdminLogin) {
         // Check if user is admin
-        const profileRes = await axios.get("https://timebank2.vercel.app/api/auth/profile", {
+        const profileRes = await axios.get("http://localhost:5000/ api/auth/profile", {
           headers: { Authorization: `Bearer ${res.data.token}` },
         });
         

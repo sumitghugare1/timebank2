@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://timebank2.vercel.app/api/admin";
+const API_URL = "http://localhost:5000/ api/admin";
 
 // Get auth token
 const getAuthToken = () => {
@@ -125,7 +125,7 @@ export const checkAdminStatus = async () => {
   if (!token) return { isAdmin: false };
   
   try {
-    const res = await axios.get("https://timebank2.vercel.app/api/auth/is-admin", {
+    const res = await axios.get("http://localhost:5000/ api/auth/is-admin", {
       headers: { Authorization: `Bearer ${token}` }
     });
     return res.data;

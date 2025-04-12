@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://timebank2.vercel.app/api/skills";
+const API_URL = "http://localhost:5000/ api/skills";
 
 export const getSuggestions = async () => {
   const res = await axios.get(`${API_URL}/suggestions`);
