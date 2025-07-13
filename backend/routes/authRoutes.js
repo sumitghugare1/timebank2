@@ -6,6 +6,35 @@ const User = require("../models/user"); // Import User model
 const authMiddleware = require("../middleware/authMiddleware"); // Import auth middleware
 const Skill = require("../models/Skill"); // Import Skill model
 
+// Auth Routes Info (GET) - For API documentation
+router.get("/", (req, res) => {
+    res.json({ 
+        message: "Authentication API",
+        routes: {
+            "POST /api/auth/signup": "Create new user account",
+            "POST /api/auth/login": "Login user",
+            "GET /api/auth/profile": "Get user profile (requires token)",
+            "GET /api/auth/is-admin": "Check admin status (requires token)"
+        },
+        note: "All POST routes require JSON body with appropriate fields"
+    });
+});
+
+// Signup Route Info (GET) - For API documentation
+router.get("/signup", (req, res) => {
+    res.json({ 
+        message: "Signup endpoint - use POST method",
+        method: "POST",
+        endpoint: "/api/auth/signup",
+        required: ["name", "email", "password"],
+        example: {
+            name: "John Doe",
+            email: "john@example.com",
+            password: "yourpassword"
+        }
+    });
+});
+
 // Signup Route
 router.post("/signup", async (req, res) => {
     try {
@@ -22,6 +51,20 @@ router.post("/signup", async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: "Server Error" });
     }
+});
+
+// Login Route Info (GET) - For API documentation
+router.get("/login", (req, res) => {
+    res.json({ 
+        message: "Login endpoint - use POST method",
+        method: "POST",
+        endpoint: "/api/auth/login",
+        required: ["email", "password"],
+        example: {
+            email: "user@example.com",
+            password: "yourpassword"
+        }
+    });
 });
 
 // Login Route
