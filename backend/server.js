@@ -45,6 +45,22 @@ app.get('/api/test', (req, res) => {
   });
 });
 
+// Root route for health check
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'TimeBank Backend API is running!', 
+    timestamp: new Date().toISOString(),
+    routes: [
+      '/api/auth',
+      '/api/skills', 
+      '/api/transactions',
+      '/api/courses',
+      '/api/admin',
+      '/api/test'
+    ]
+  });
+});
+
 // Error handling for 404s
 app.use((req, res) => {
   console.log(`Route not found: ${req.method} ${req.url}`);
