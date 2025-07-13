@@ -25,7 +25,7 @@ const TransactionHistory = () => {
     try {
       // Direct API call for debugging
       const token = localStorage.getItem("token");
-      const response = await fetch("https://timebankbackend.vercel.app/api/transactions", {
+      const response = await fetch("https://tbbackend.vercel.app/api/transactions", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

@@ -26,7 +26,7 @@ const AdminSettings = () => {
     
     try {
       // This would be a real API call in a production app
-      // await axios.put("https://timebankbackend.vercel.app/api/admin/settings", settings, {
+      // await axios.put("https://tbbackend.vercel.app/api/admin/settings", settings, {
       //   headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` },
       // });
       

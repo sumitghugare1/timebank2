@@ -1,7 +1,7 @@
 // API Configuration
 const API_CONFIG = {
   // Use environment variable if available, otherwise fallback to production URL
-  BASE_URL: process.env.REACT_APP_API_URL || 'https://timebankbackend.vercel.app',
+  BASE_URL: process.env.REACT_APP_API_URL || 'https://tbbackend.vercel.app',
   
   // API endpoints
   ENDPOINTS: {

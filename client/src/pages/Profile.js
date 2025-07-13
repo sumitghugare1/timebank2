@@ -18,7 +18,7 @@ function Profile() {
 
   const fetchUserProfile = async (token) => {
     try {
-      const response = await fetch("https://timebankbackend.vercel.app/api/auth/profile", {
+      const response = await fetch("https://tbbackend.vercel.app/api/auth/profile", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });

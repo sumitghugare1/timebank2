@@ -21,7 +21,7 @@ const AddCourse = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("https://timebankbackend.vercel.app/api/courses/add", {
+      const response = await fetch("https://tbbackend.vercel.app/api/courses/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

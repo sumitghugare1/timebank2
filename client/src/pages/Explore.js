@@ -25,7 +25,7 @@ const Explore = () => {
 
   const fetchUserProfile = async (token) => {
     try {
-      const response = await fetch("https://timebankbackend.vercel.app/api/auth/profile", {
+      const response = await fetch("https://tbbackend.vercel.app/api/auth/profile", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -45,7 +45,7 @@ const Explore = () => {
   const fetchSkills = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("https://timebankbackend.vercel.app/api/skills");
+      const response = await fetch("https://tbbackend.vercel.app/api/skills");
       const data = await response.json();
       setSkills(data);
     } catch (error) {
@@ -64,7 +64,7 @@ const Explore = () => {
         return;
       }
 
-      const response = await fetch("https://timebankbackend.vercel.app/api/skills", {
+      const response = await fetch("https://tbbackend.vercel.app/api/skills", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
