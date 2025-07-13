@@ -4,6 +4,22 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
 
+// Validate critical environment variables
+if (!process.env.MONGO_URI) {
+  console.error("ERROR: MONGO_URI environment variable is required");
+  process.exit(1);
+}
+
+if (!process.env.JWT_SECRET) {
+  console.error("ERROR: JWT_SECRET environment variable is required");
+  process.exit(1);
+}
+
+console.log("Environment variables loaded successfully");
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("MONGO_URI defined:", !!process.env.MONGO_URI);
+console.log("JWT_SECRET defined:", !!process.env.JWT_SECRET);
+
 const authRoutes = require("./routes/authRoutes");
 const skillRoutes = require("./routes/skillRoutes");
 const transactionRoutes = require("./routes/transactionRoutes");
@@ -31,9 +47,18 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Initialize database connection for Vercel
-connectDB().catch((error) => {
-  console.error('Database connection failed:', error);
+// Database connection middleware for Vercel serverless
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    console.error('Database connection failed:', error);
+    res.status(500).json({ 
+      message: "Database connection failed", 
+      error: error.message 
+    });
+  }
 });
 
 // Debug middleware to log all requests
@@ -64,6 +89,26 @@ app.get('/api/test', (req, res) => {
     message: 'API is working!', 
     timestamp: new Date().toISOString() 
   });
+});
+
+// Database connection test route
+app.get('/api/db-test', async (req, res) => {
+  try {
+    await connectDB();
+    const User = require('./models/user');
+    const userCount = await User.countDocuments();
+    res.json({ 
+      message: 'Database connected!', 
+      userCount,
+      timestamp: new Date().toISOString() 
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      message: 'Database connection failed', 
+      error: error.message,
+      timestamp: new Date().toISOString() 
+    });
+  }
 });
 
 // Root route for health check

@@ -84,6 +84,12 @@ router.post("/login", async (req, res) => {
     try {
         console.log("Login attempt:", { email: req.body.email, timestamp: new Date().toISOString() });
         
+        // Check if JWT_SECRET is available
+        if (!process.env.JWT_SECRET) {
+            console.error("JWT_SECRET environment variable is not defined");
+            return res.status(500).json({ message: "Server configuration error" });
+        }
+        
         const { email, password } = req.body;
         
         if (!email || !password) {
@@ -113,7 +119,7 @@ router.post("/login", async (req, res) => {
         });
     } catch (error) {
         console.error("Login error:", error);
-        res.status(500).json({ message: "Server Error" });
+        res.status(500).json({ message: "Server Error", error: error.message });
     }
 });
 

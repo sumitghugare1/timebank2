@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 let isConnected = false;
 
 const connectDB = async () => {
-    if (isConnected) {
+    if (isConnected && mongoose.connection.readyState === 1) {
         console.log("Already connected to MongoDB");
         return;
     }
@@ -13,17 +13,26 @@ const connectDB = async () => {
             throw new Error("MONGO_URI environment variable is not defined");
         }
 
+        // Disconnect any existing connections
+        if (mongoose.connection.readyState !== 0) {
+            await mongoose.disconnect();
+        }
+
         const options = {
-            maxPoolSize: 10, // Maintain up to 10 socket connections
-            serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
-            socketTimeoutMS: 45000, // Close sockets after 45 seconds
-            bufferCommands: true // Enable mongoose buffering for serverless
+            maxPoolSize: 3, // Reduce pool size for serverless
+            serverSelectionTimeoutMS: 15000, // Increase timeout
+            socketTimeoutMS: 45000,
+            bufferCommands: false, // Disable buffering for faster failures
+            bufferMaxEntries: 0,
+            connectTimeoutMS: 15000,
+            family: 4 // Use IPv4
         };
 
+        console.log("Connecting to MongoDB...");
         await mongoose.connect(process.env.MONGO_URI, options);
         
         isConnected = true;
-        console.log("MongoDB Connected!");
+        console.log("MongoDB Connected successfully!");
         
         // Handle connection events
         mongoose.connection.on('disconnected', () => {
@@ -31,10 +40,15 @@ const connectDB = async () => {
             console.log('MongoDB disconnected');
         });
         
+        mongoose.connection.on('error', (err) => {
+            isConnected = false;
+            console.error('MongoDB connection error:', err);
+        });
+        
     } catch (error) {
         console.error("MongoDB Connection Failed:", error.message);
         isConnected = false;
-        throw error; // Let the calling function handle the error
+        throw error;
     }
 };
 
