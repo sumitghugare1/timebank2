@@ -38,17 +38,29 @@ router.get("/signup", (req, res) => {
 // Signup Route
 router.post("/signup", async (req, res) => {
     try {
+        console.log("Signup attempt:", { email: req.body.email, name: req.body.name, timestamp: new Date().toISOString() });
+        
         const { name, email, password } = req.body;
+        
+        if (!name || !email || !password) {
+            console.log("Missing required fields");
+            return res.status(400).json({ message: "Name, email, and password are required" });
+        }
 
         let user = await User.findOne({ email });
-        if (user) return res.status(400).json({ message: "User already exists" });
+        if (user) {
+            console.log("User already exists:", email);
+            return res.status(400).json({ message: "User already exists" });
+        }
 
         const hashedPassword = await bcrypt.hash(password, 10);
         user = new User({ name, email, password: hashedPassword });
 
         await user.save();
+        console.log("User registered successfully:", email);
         res.status(201).json({ message: "User registered successfully!" });
     } catch (error) {
+        console.error("Signup error:", error);
         res.status(500).json({ message: "Server Error" });
     }
 });
@@ -70,20 +82,37 @@ router.get("/login", (req, res) => {
 // Login Route
 router.post("/login", async (req, res) => {
     try {
+        console.log("Login attempt:", { email: req.body.email, timestamp: new Date().toISOString() });
+        
         const { email, password } = req.body;
+        
+        if (!email || !password) {
+            console.log("Missing email or password");
+            return res.status(400).json({ message: "Email and password are required" });
+        }
+        
         const user = await User.findOne({ email });
-        if (!user) return res.status(400).json({ message: "Invalid credentials" });
+        if (!user) {
+            console.log("User not found:", email);
+            return res.status(400).json({ message: "Invalid credentials" });
+        }
 
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+        if (!isMatch) {
+            console.log("Password mismatch for user:", email);
+            return res.status(400).json({ message: "Invalid credentials" });
+        }
 
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        console.log("Login successful for user:", email);
+        
         res.json({ 
             token, 
             userId: user._id,
             isAdmin: user.isAdmin || false // Send isAdmin status to client
         });
     } catch (error) {
+        console.error("Login error:", error);
         res.status(500).json({ message: "Server Error" });
     }
 });

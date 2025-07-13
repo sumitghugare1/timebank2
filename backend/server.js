@@ -21,9 +21,12 @@ const corsOptions = {
     'http://localhost:3000', // For local development
     'https://timebankfrontend.vercel.app', // Your frontend domain
     'https://timebankfrontend.vercel.app/', // With trailing slash
+    'https://timebankfrontend.vercel.app' // Without trailing slash (duplicate for safety)
   ],
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 };
 
 app.use(cors(corsOptions));
