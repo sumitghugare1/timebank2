@@ -111,8 +111,8 @@ const initializeApp = async () => {
 
 // For Vercel serverless deployment
 if (process.env.VERCEL) {
-  // In Vercel, initialize on each request
-  initializeApp();
+  // In Vercel, initialize database connection on app startup
+  connectDB().catch(console.error);
 } else {
   // For local development
   initializeApp().then(() => {
