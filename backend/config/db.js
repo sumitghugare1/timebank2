@@ -23,7 +23,6 @@ const connectDB = async () => {
             serverSelectionTimeoutMS: 15000, // Increase timeout
             socketTimeoutMS: 45000,
             bufferCommands: false, // Disable buffering for faster failures
-            bufferMaxEntries: 0,
             connectTimeoutMS: 15000,
             family: 4 // Use IPv4
         };
