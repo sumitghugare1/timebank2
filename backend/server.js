@@ -18,9 +18,8 @@ app.use(express.json());
 const corsOptions = {
   origin: [
     'http://localhost:3000', // For local development
-    'https://timebank-frontend.vercel.app', // Replace with your frontend URL
-    'https://time-bank-frontend.vercel.app', // Common variation
-    'https://your-frontend-domain.vercel.app' // Replace with actual domain
+    'https://timebankfrontend.vercel.app', // Your frontend domain
+    'https://timebankfrontend.vercel.app/', // With trailing slash
   ],
   credentials: true,
   optionsSuccessStatus: 200
