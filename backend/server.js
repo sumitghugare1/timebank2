@@ -28,8 +28,10 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// For Vercel serverless deployment
-connectDB().catch(console.error);
+// Initialize database connection for Vercel
+connectDB().catch((error) => {
+  console.error('Database connection failed:', error);
+});
 
 // Debug middleware to log all requests
 app.use((req, res, next) => {
@@ -83,39 +85,17 @@ app.use((req, res) => {
   res.status(404).json({ message: `Route not found: ${req.method} ${req.url}` });
 });
 
-// Root route for health check
-app.get('/', (req, res) => {
-  res.json({ 
-    message: 'TimeBank Backend API is running!', 
-    timestamp: new Date().toISOString(),
-    routes: [
-      '/api/auth',
-      '/api/skills', 
-      '/api/transactions',
-      '/api/courses',
-      '/api/admin'
-    ]
-  });
-});
-
 // Connect to MongoDB & Start Server
 const PORT = process.env.PORT || 5000;
 
-// Initialize database connection
-const initializeApp = async () => {
-  try {
-    await connectDB();
-    console.log('Database connected successfully');
-  } catch (error) {
-    console.error('Database connection failed:', error);
-    // Don't exit process in serverless environment
-    // process.exit(1);
-  }
-};
-
-
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// For Vercel serverless deployment
+if (process.env.VERCEL) {
+  // Export for Vercel
+  module.exports = app;
+} else {
+  // For local development
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
 
