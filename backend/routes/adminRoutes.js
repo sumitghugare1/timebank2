@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 const adminMiddleware = require("../middleware/adminMiddleware");
-const User = require("../models/User");
+const User = require("../models/user");
 const Skill = require("../models/Skill");
 const Transaction = require("../models/Transaction");
 

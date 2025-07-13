@@ -1,15 +1,43 @@
 const mongoose = require("mongoose");
 
+let isConnected = false;
+
 const connectDB = async () => {
+    if (isConnected) {
+        console.log("Already connected to MongoDB");
+        return;
+    }
+
     try {
-        await mongoose.connect(process.env.MONGO_URI, {
+        if (!process.env.MONGO_URI) {
+            throw new Error("MONGO_URI environment variable is not defined");
+        }
+
+        const options = {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-        });
+            maxPoolSize: 10, // Maintain up to 10 socket connections
+            serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
+            socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+            bufferCommands: false, // Disable mongoose buffering
+            bufferMaxEntries: 0 // Disable mongoose buffering
+        };
+
+        await mongoose.connect(process.env.MONGO_URI, options);
+        
+        isConnected = true;
         console.log("MongoDB Connected!");
+        
+        // Handle connection events
+        mongoose.connection.on('disconnected', () => {
+            isConnected = false;
+            console.log('MongoDB disconnected');
+        });
+        
     } catch (error) {
         console.error("MongoDB Connection Failed:", error.message);
-        process.exit(1);
+        isConnected = false;
+        throw error; // Let the calling function handle the error
     }
 };
 

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 const Transaction = require("../models/Transaction");
-const User = require("../models/User");
+const User = require("../models/user");
 const Skill = require("../models/Skill");
 
 // Debug middleware for transaction routes

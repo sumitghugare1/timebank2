@@ -37,19 +37,59 @@ app.use("/api/transactions", transactionRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/admin", adminRoutes);
 
+// Test route without database dependency
+app.get('/api/test', (req, res) => {
+  res.json({ 
+    message: 'API is working!', 
+    timestamp: new Date().toISOString() 
+  });
+});
+
 // Error handling for 404s
 app.use((req, res) => {
   console.log(`Route not found: ${req.method} ${req.url}`);
   res.status(404).json({ message: `Route not found: ${req.method} ${req.url}` });
 });
 
+// Root route for health check
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'TimeBank Backend API is running!', 
+    timestamp: new Date().toISOString(),
+    routes: [
+      '/api/auth',
+      '/api/skills', 
+      '/api/transactions',
+      '/api/courses',
+      '/api/admin'
+    ]
+  });
+});
+
 // Connect to MongoDB & Start Server
-connectDB();
 const PORT = process.env.PORT || 5000;
 
-// For local development
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Initialize database connection
+const initializeApp = async () => {
+  try {
+    await connectDB();
+    console.log('Database connected successfully');
+  } catch (error) {
+    console.error('Database connection failed:', error);
+    // Don't exit process in serverless environment
+    // process.exit(1);
+  }
+};
+
+// For Vercel serverless deployment
+if (process.env.VERCEL) {
+  // In Vercel, initialize on each request
+  initializeApp();
+} else {
+  // For local development
+  initializeApp().then(() => {
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  });
 }
 
 // Export for Vercel

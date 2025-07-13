@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/User"); // Import User model
+const User = require("../models/user"); // Import User model
 const authMiddleware = require("../middleware/authMiddleware"); // Import auth middleware
 const Skill = require("../models/Skill"); // Import Skill model
 

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
 const Skill = require("../models/Skill"); // Use Skill model consistently
-const User = require("../models/User");
+const User = require("../models/user");
 
 // ✅ Add Course
 router.post("/add", authMiddleware, async (req, res) => {
