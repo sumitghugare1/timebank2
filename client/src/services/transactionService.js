@@ -1,6 +1,7 @@
 import axios from "axios";
+import { getApiUrl } from "../config/api";
 
-const API_URL = "http://localhost:5000/ api/transactions";
+const API_URL = getApiUrl("/api/transactions");
 
 // ✅ Earn Credits
 export const earnCredits = async (skillId) => {

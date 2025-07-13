@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import { FiArrowDown, FiClock, FiUsers, FiLayers, FiCheck } from "react-icons/fi";
+import { getApiUrl } from "../config/api";
 
 function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,7 +24,7 @@ function Home() {
 
   const checkAdminStatus = async (token) => {
     try {
-      const response = await fetch("http://localhost:5000/ api/auth/profile", {
+      const response = await fetch(getApiUrl("/api/auth/profile"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
@@ -35,7 +36,7 @@ function Home() {
 
   const fetchSkills = async () => {
     try {
-      const response = await fetch("http://localhost:5000/ api/skills");
+      const response = await fetch(getApiUrl("/api/skills"));
       const data = await response.json();
       setSkills(data);
     } catch (error) {

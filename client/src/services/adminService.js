@@ -1,6 +1,7 @@
 import axios from "axios";
+import { getApiUrl } from "../config/api";
 
-const API_URL = "http://localhost:5000/ api/admin";
+const API_URL = getApiUrl("/api/admin");
 
 // Get auth token
 const getAuthToken = () => {
@@ -125,7 +126,7 @@ export const checkAdminStatus = async () => {
   if (!token) return { isAdmin: false };
   
   try {
-    const res = await axios.get("http://localhost:5000/ api/auth/is-admin", {
+    const res = await axios.get(getApiUrl("/api/auth/is-admin"), {
       headers: { Authorization: `Bearer ${token}` }
     });
     return res.data;

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FiMail, FiLock, FiUser } from "react-icons/fi";
+import { getApiUrl } from "../config/api";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -29,14 +30,14 @@ function Login() {
     setIsLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/ api/auth/login", { email, password });
+      const res = await axios.post(getApiUrl("/api/auth/login"), { email, password });
 
       localStorage.setItem("token", res.data.token);
       
       // Check if this is an admin login attempt
       if (isAdminLogin) {
         // Check if user is admin
-        const profileRes = await axios.get("http://localhost:5000/ api/auth/profile", {
+        const profileRes = await axios.get(getApiUrl("/api/auth/profile"), {
           headers: { Authorization: `Bearer ${res.data.token}` },
         });
         

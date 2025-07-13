@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FiMail, FiLock, FiUser } from "react-icons/fi";
+import { getApiUrl } from "../config/api";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -29,7 +30,7 @@ function Signup() {
     setIsLoading(true);
 
     try {
-      await axios.post("http://localhost:5000/ api/auth/signup", { name, email, password });
+      await axios.post(getApiUrl("/api/auth/signup"), { name, email, password });
 
       showToast("🎉 Account created successfully! Redirecting to login...", "success");
 

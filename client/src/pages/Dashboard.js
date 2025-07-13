@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import { FiPlusCircle, FiSearch, FiClock, FiTrendingUp, FiBook } from "react-icons/fi";
+import { getApiUrl } from "../config/api";
 
 function Dashboard() {
   const [user, setUser] = useState(null);
@@ -25,7 +26,7 @@ function Dashboard() {
   const fetchUserProfile = async (token) => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:5000/ api/auth/profile", {
+      const response = await fetch(getApiUrl("/api/auth/profile"), {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -46,7 +47,7 @@ function Dashboard() {
 
   const fetchSkills = async () => {
     try {
-      const response = await fetch("http://localhost:5000/ api/skills");
+      const response = await fetch(getApiUrl("/api/skills"));
       const data = await response.json();
       setSkills(data);
     } catch (error) {

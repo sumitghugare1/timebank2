@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { getApiUrl } from "../config/api";
 
 const UserCredits = () => {
   const [credits, setCredits] = useState(0);
@@ -8,7 +9,7 @@ const UserCredits = () => {
     const fetchCredits = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/ api/auth/profile", {
+        const res = await axios.get(getApiUrl("/api/auth/profile"), {
           headers: { Authorization: `Bearer ${token}` },
         });
         setCredits(res.data.timeCredits);

@@ -13,7 +13,20 @@ const app = express();
 
 // Middleware
 app.use(express.json());
-app.use(cors());
+
+// CORS configuration to allow frontend domain
+const corsOptions = {
+  origin: [
+    'http://localhost:3000', // For local development
+    'https://timebank-frontend.vercel.app', // Replace with your frontend URL
+    'https://time-bank-frontend.vercel.app', // Common variation
+    'https://your-frontend-domain.vercel.app' // Replace with actual domain
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 
 // Debug middleware to log all requests
 app.use((req, res, next) => {

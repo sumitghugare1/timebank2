@@ -1,6 +1,7 @@
 import axios from "axios";
+import { getApiUrl } from "../config/api";
 
-const API_URL = "http://localhost:5000/ api/chat";
+const API_URL = getApiUrl("/api/chat");
 
 export const getMessages = async () => {
   const res = await axios.get(API_URL);

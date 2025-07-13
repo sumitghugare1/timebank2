@@ -24,7 +24,7 @@ const AdminLogin = () => {
     
     try {
       console.log("Attempting admin login...");
-      const res = await axios.post("http://localhost:5000/ api/auth/login", { email, password });
+      const res = await axios.post("https://timebankbackend.vercel.app/api/auth/login", { email, password });
       
       console.log("Login response:", res.data);
       
@@ -34,7 +34,7 @@ const AdminLogin = () => {
         
         try {
           console.log("Checking admin status...");
-          const profileRes = await axios.get("http://localhost:5000/ api/auth/profile", {
+          const profileRes = await axios.get("https://timebankbackend.vercel.app/api/auth/profile", {
             headers: { Authorization: `Bearer ${res.data.token}` },
           });
           
